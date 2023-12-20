@@ -1,0 +1,28 @@
+.card{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: #2D9596;
+  border-radius: 10px;
+  padding: 20px 10px;
+  width: 300px;
+  gap: 10px;
+}
+
+.image{
+  margin: 0;
+  border-radius: 10px;
+}
+
+.text{
+  margin: 0;
+  padding-bottom: 6px;
+  font-size: 20px;
+}
+
+.buttonWrapper{
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+}
+

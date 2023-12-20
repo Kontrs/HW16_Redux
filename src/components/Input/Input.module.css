@@ -1,0 +1,20 @@
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.input{
+  border-radius: 10px;
+  padding: 10px 20px;
+  width: 200px;
+  border: none;
+  background-color: #265073;
+  color: #ECF4D6;
+
+  &::placeholder{
+    color: #ECF4D6;
+  }
+}

@@ -1,0 +1,26 @@
+.wrapper{
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sortWrapper{
+  display: flex;
+  gap: 20px;
+}
+.cardWrapper{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+}
+.form{
+  display: flex;
+  flex-direction: column;
+  padding: 20px 15px;
+  background-color: #2D9596;
+  border-radius: 10px;
+  align-items: center;
+  gap: 10px;
+}

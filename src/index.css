@@ -1,0 +1,9 @@
+body{
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  margin: 0;
+  color:#ECF4D6;
+  background-color: #265073;
+  padding: 40px 0;
+}
