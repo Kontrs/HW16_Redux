@@ -18,6 +18,7 @@ const initFormValue = {image: '', name: '', habitat: ''}
 
 function App(): JSX.Element {
   const [inputFormValue, setInputFormValue] = useState(initFormValue);
+  const [editMode, setEditMode] = useState(false);
   const animals = useSelector((state: RootState) => state.animals);
   const dispatch = useDispatch();
 
@@ -36,7 +37,7 @@ function App(): JSX.Element {
       </div>
       <div className='cardWrapper'>
       {animals.length ? animals.map((animal: Animal): JSX.Element => {
-        return (
+        return (!editMode ? (
           <Card 
             key={animal.id}
             id={animal.id}
@@ -44,9 +45,61 @@ function App(): JSX.Element {
             name={animal.name}
             habitat={animal.habitat}
             onDelete={() => dispatch(deleteAnimal(animal.id))}
-            onEdit={() =>dispatch(editAnimal(animal.id))}/>
+            onEdit={() => {
+              dispatch(editAnimal(animal.id));
+              setEditMode(true);
+            }}
+              />
+          ) : 
+          (
+            <form action="submit" className='form' onSubmit={(e) => {
+              e.preventDefault();
+              setEditMode(false)
+              setInputFormValue(initFormValue);
+              }}>
+              <Input 
+                type='text' 
+                placeholder='Picture of the animal'
+                required
+                label='Add a link to the picture'
+                name='image'
+                value={animal.image}
+                onChange={(e) => {
+                  setInputFormValue({...inputFormValue, image: e.target.value})
+                }}
+              />
+              <Input 
+                type='text' 
+                placeholder='Animal'
+                required
+                label='What animal would you like to add?'
+                name='animal'
+                value={animal.name}
+                onChange={(e) => {
+                  setInputFormValue({...inputFormValue, name: e.target.value})
+                }}
+              />
+              <Input 
+                type='text' 
+                placeholder='Habitat'
+                required
+                label='Where does the animal live?'
+                name='habitat'
+                value={animal.habitat}
+                onChange={(e) => {
+                  setInputFormValue({...inputFormValue, habitat: e.target.value})
+                }}
+              />
+              <Button
+                text='Save'
+                size='small'
+                type='submit'
+              />
+            </form>
+          )
         )
-      }) : <div>No animals found.</div>}
+      }) : 
+      <div>No animals found.</div>}
       </div>
       <form action="submit" className='form' onSubmit={(e) => {
             e.preventDefault();
