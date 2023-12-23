@@ -30,7 +30,8 @@ export const animalSlice = createSlice({
       return updatedArray;
     },
     editAnimal: (state, action: PayloadAction<number>): Animal[] => {
-  
+      const findAnimal = initialState.filter((animal: Animal) => animal.id === action.payload)
+      console.log(findAnimal)
     },
     sortAnimalsAsc: (state) => {
       const sortedAnimals = state.sort((a: Animal, b: Animal) => a.name.localeCompare(b.name));
