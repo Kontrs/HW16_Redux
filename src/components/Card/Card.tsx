@@ -2,6 +2,8 @@ import styles from './Card.module.css';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { editAnimal } from '../../redux/animals';
 
 type CardProps = {
   id: number,
@@ -9,14 +11,13 @@ type CardProps = {
   name: string,
   habitat: string,
   onDelete?: () => void,
-  onEdit?: () => void,
-  isEditing: boolean
 }
-const initFormValue = {image: '', name: '', habitat: ''}
 
-export const Card = ({id, image, name, habitat, onDelete, onEdit, isEditing}: CardProps): JSX.Element => {
-  const [inputFormValue, setInputFormValue] = useState(initFormValue);
-  return( !isEditing ? 
+export const Card = ({id, image, name, habitat, onDelete}: CardProps): JSX.Element => {
+  const [editMode, setEditMode] = useState(false)
+  const [editFormValue, setEditFormValue] = useState({id, image, name, habitat});
+  const dispatch = useDispatch();
+  return( !editMode ? 
     (<div key={id} className={styles.card}>
         <img className={styles.image} src={image} alt={name}/>
         <p className={styles.text}><b>Animal:</b> {name}</p>
@@ -29,16 +30,15 @@ export const Card = ({id, image, name, habitat, onDelete, onEdit, isEditing}: Ca
           <Button 
             text='Edit' 
             size='small' 
-            onClick={onEdit}
+            onClick={() => setEditMode(true)}
           />
         </div>
       </div>
     ) : (
       <form action="submit" className='form' onSubmit={(e) => {
         e.preventDefault();
-        setInputFormValue(initFormValue);
-        isEditing = false
-        console.log('hi')
+        dispatch(editAnimal(editFormValue))
+        setEditMode(false)
         }}>
         <Input 
           type='text' 
@@ -46,9 +46,9 @@ export const Card = ({id, image, name, habitat, onDelete, onEdit, isEditing}: Ca
           required
           label='Add a link to the picture'
           name='image'
-          value={image}
+          value={editFormValue.image}
           onChange={(e) => {
-            setInputFormValue({...inputFormValue, image: e.target.value})
+            setEditFormValue({...editFormValue, image: e.target.value})
           }}
         />
         <Input 
@@ -57,9 +57,9 @@ export const Card = ({id, image, name, habitat, onDelete, onEdit, isEditing}: Ca
           required
           label='What animal would you like to add?'
           name='animal'
-          value={name}
+          value={editFormValue.name}
           onChange={(e) => {
-            setInputFormValue({...inputFormValue, name: e.target.value})
+            setEditFormValue({...editFormValue, name: e.target.value})
           }}
         />
         <Input 
@@ -68,9 +68,9 @@ export const Card = ({id, image, name, habitat, onDelete, onEdit, isEditing}: Ca
           required
           label='Where does the animal live?'
           name='habitat'
-          value={habitat}
+          value={editFormValue.habitat}
           onChange={(e) => {
-            setInputFormValue({...inputFormValue, habitat: e.target.value})
+            setEditFormValue({...editFormValue, habitat: e.target.value})
           }}
         />
         <Button

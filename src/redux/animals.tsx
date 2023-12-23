@@ -11,10 +11,11 @@ type Animal = {
 };
 
 const storedAnimals = localStorage.getItem('animals');
-const initialState = storedAnimals ? JSON.parse(storedAnimals) : [];
+const initialState = storedAnimals ? JSON.parse(storedAnimals) : '[]';
+console.log(storedAnimals);
 
 export const animalSlice = createSlice({
-  name: 'animals',
+  name: 'animals', 
   initialState,
   reducers: {
     addAnimal: (state, action: PayloadAction<Animal>): Animal[] => {
@@ -29,9 +30,16 @@ export const animalSlice = createSlice({
 
       return updatedArray;
     },
-    editAnimal: (state, action: PayloadAction<number>): Animal[] => {
-      const findAnimal = initialState.filter((animal: Animal) => animal.id === action.payload)
-      console.log(findAnimal)
+    editAnimal: (state, action: PayloadAction<Animal>) => {
+      const findAnimal = state.find((animal: Animal) => animal.id === action.payload.id);
+
+      if(findAnimal) {
+        findAnimal.name = action.payload.name
+        findAnimal.image = action.payload.image
+        findAnimal.habitat = action.payload.habitat
+      }
+
+      localStorage.setItem('animals', JSON.stringify(state));
     },
     sortAnimalsAsc: (state) => {
       const sortedAnimals = state.sort((a: Animal, b: Animal) => a.name.localeCompare(b.name));

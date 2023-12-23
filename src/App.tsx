@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from './components/Button/Button';
 import { Card } from './components/Card/Card';
 import { Input } from './components/Input/Input';
-import { addAnimal, deleteAnimal, editAnimal, sortAnimalsAsc, sortAnimalsDesc } from './redux/animals';
+import { addAnimal, deleteAnimal, sortAnimalsAsc, sortAnimalsDesc } from './redux/animals';
 import { useState } from 'react';
 import { RootState } from './redux/store';
 import './app.css';
@@ -18,7 +18,6 @@ const initFormValue = {image: '', name: '', habitat: ''}
 
 function App(): JSX.Element {
   const [inputFormValue, setInputFormValue] = useState(initFormValue);
-  const [editMode, setEditMode] = useState(false);
   const animals = useSelector((state: RootState) => state.animals);
   const dispatch = useDispatch();
 
@@ -45,11 +44,6 @@ function App(): JSX.Element {
               name={animal.name}
               habitat={animal.habitat}
               onDelete={() => dispatch(deleteAnimal(animal.id))}
-              onEdit={() => {
-                dispatch(editAnimal(animal.id));
-                setEditMode(true)
-              }}
-              isEditing = {editMode}
             />
           ))
           ) : (
